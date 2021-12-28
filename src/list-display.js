@@ -13,4 +13,5 @@ export class ListDisplay extends LitElement
         `;
     }
 }
+customElements.define('list-display', ListDisplay );
 
