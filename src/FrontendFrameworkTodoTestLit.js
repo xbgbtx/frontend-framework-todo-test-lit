@@ -18,7 +18,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     return html`
       <main>
         <h1>ToDo using Lit</h1>
-        <list-display></list-display>
+        <list-display title="Things To Do:"></list-display>
       </main>
     `;
   }
