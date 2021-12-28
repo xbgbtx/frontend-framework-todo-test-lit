@@ -6,7 +6,9 @@
   "version": "0.0.0",
   "scripts": {
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server"
+    "start": "web-dev-server",
+    "build": "rimraf dist && rollup -c rollup.config.js",
+    "start:build": "npm run build && es-dev-server --root-dir dist --app-index index.html --compatibility none --open"
   },
   "dependencies": {
     "lit": "^2.0.2"
