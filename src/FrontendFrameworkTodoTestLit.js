@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 
 import { ListDisplay } from "./list-display.js";
+import { ListItem } from "./list-item.js";
 
 export class FrontendFrameworkTodoTestLit extends LitElement {
 
@@ -33,7 +34,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         return html`
             <main>
-                <h1>ToDo using Lit ${performance.now()}</h1>
+                <h1>ToDo using Lit</h1>
                 <list-display 
                     title="Things To Do:"
                     items="${JSON.stringify(this.todo)}">
@@ -52,7 +53,20 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         e.preventDefault();
         console.log("Submitted todo");
-        this.todo = [...this.todo, "abc"];
+        let id = `todo-${this.todo.length + 1}`;
+        let item = html`
+            <list-item 
+                item_id=${id} 
+                item_text='todo-text go here'
+            ></list-item>
+        `;
+        this.todo = [...this.todo, item];
+    }
+
+    mark_done(e)
+    {
+        console.log("Marked done");
+        console.log(e);
     }
 }
 
