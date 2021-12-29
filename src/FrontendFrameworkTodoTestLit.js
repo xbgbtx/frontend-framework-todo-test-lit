@@ -14,16 +14,34 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         `;
     }
 
+    static get properties () 
+    {
+        return {
+            todo : {
+                type: Array,
+            }
+        };
+    }
+
+    constructor()
+    {
+        super ();
+        this.todo=[];
+    }
+
     render() 
     {
         return html`
             <main>
-                <h1>ToDo using Lit</h1>
-                <list-display title="Things To Do:"></list-display>
+                <h1>ToDo using Lit ${performance.now()}</h1>
+                <list-display 
+                    title="Things To Do:"
+                    items="${JSON.stringify(this.todo)}">
+                </list-display>
 
                 <form @submit="${this.submit_todo}">
                     <label for="add-todo">Add Todo:</label> 
-                    <input type="text" id="add-todo" name="add-todo"><br><br>
+                    <input type="text" id="add-todo-input" name="add-todo"><br><br>
                     <input type="submit" value="Submit">
                 </form>
             </main>
@@ -34,6 +52,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         e.preventDefault();
         console.log("Submitted todo");
+        this.todo = [...this.todo, "abc"];
     }
 }
 

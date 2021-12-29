@@ -36,13 +36,10 @@ export class ListDisplay extends LitElement
         if ( this.items.length == 0 )
             return html`<p>No items</p>`;
 
-        const li_map = this.items.map ( i => `<li>${i}</li>` );
+        const li_items = this.items.map ( i => html`<li>${i}</li>` );
 
-        return html`
-            <ul>
-                ${this.li_map.join()}
-            </ul>
-        `;
+        return html`<ul>${li_items}</ul>`;
+
     }
 }
 customElements.define('list-display', ListDisplay );
