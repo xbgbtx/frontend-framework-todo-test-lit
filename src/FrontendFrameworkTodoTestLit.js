@@ -28,6 +28,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         super ();
         this.todo=[];
+        this.addEventListener('done', e => console.log(e));
     }
 
     render() 
@@ -53,11 +54,14 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         e.preventDefault();
         console.log("Submitted todo");
-        let id = `todo-${this.todo.length + 1}`;
+        let idx = this.todo.length + 1;
+        let id = `todo-${idx}`;
         let item = html`
             <list-item 
-                item_id=${id} 
+                id=${id}
+                item_idx=${idx}
                 item_text='todo-text go here'
+                click_event_name='done'
             ></list-item>
         `;
         this.todo = [...this.todo, item];

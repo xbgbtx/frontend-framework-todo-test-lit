@@ -5,10 +5,13 @@ export class ListItem extends LitElement
     static get properties () 
     {
         return {
-            item_id : {
-                type : String
+            item_idx : {
+                type: Number
             },
             item_text : {
+                type: String
+            },
+            click_event_name : {
                 type: String
             },
         };
@@ -22,13 +25,25 @@ export class ListItem extends LitElement
 
     render ()
     {
+        let click_handler = _ =>
+        {
+            let click_event = new CustomEvent(
+                this.click_event_name,
+                {
+                    detail : { item_idx : this.item_idx },
+                    bubbles: true,
+                    composed: true
+                }
+            );
+            this.dispatchEvent(click_event);
+        };
         return html`
             <span>
                 ${this.item_text}
-                <label for="${this.item_id}-button">Done:</label> 
+                <label for="done-button">Done:</label> 
                 <button 
-                    id="${this.item_id}-button"
-                    onclick="console.log('${this.item_id}')"
+                    id="done-button"
+                    @click=${click_handler}
                 >
                     Mark Done
                 </button>
