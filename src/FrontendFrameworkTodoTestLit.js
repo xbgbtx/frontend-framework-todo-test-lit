@@ -18,6 +18,9 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
             todo : {
                 type: Array,
             },
+            done : {
+                type: Array,
+            },
         };
     }
 
@@ -25,6 +28,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         super ();
         this.todo=[];
+        this.done=[];
         this.addEventListener('done', e => console.log(e));
         this.id_count = 0;
     }
@@ -41,7 +45,8 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         return html`
             <main>
                 <h1>ToDo using Lit</h1>
-                ${this.list_html("Todo",this.todo)}
+                ${this.list_html("Todo", "Mark Done", id => this.mark_done(id), this.todo)}
+                ${this.list_html("Done", "Delete", id => this.delete(id), this.done)}
 
                 <form @submit=${submit_handler}>
                     <label for="add-todo">Add Todo:</label> 
@@ -56,15 +61,26 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         `;
     }
 
-    list_html(list_name, items)
+    list_html(list_name, button_text, button_cb, items)
     {
         let list_gen = _ =>
         {
-            let text_list = items.map(i => html`<li>${i.text}</li>`);
+            let text_list = items.map(i => 
+                html`
+                    <li>
+                        <span>${i.text}</span>
+                        <button
+                            @click=${e => button_cb(i.id)}
+                        >
+                            ${button_text}
+                        </button>
+                    </li>`
+            );
             return html`<ul>${text_list}</ul>`;
         };
 
         return html`
+            <h2>${list_name}:</h2>
             ${ items.length > 0 ? list_gen(items) : html`<p>No items.</p>` }
         `;
     }
@@ -87,6 +103,26 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         };
 
         this.todo = [ ...this.todo, item ];
+    }
+
+    mark_done(id)
+    {
+        console.log(`Mark Done: ${id}`);
+
+        let item = this.todo.reduce ( ( prev, curr ) => curr.id == id ? curr : prev );
+
+        if ( item == null )
+            return;
+
+        this.todo = this.todo.filter ( i => i.id != item.id );
+
+        this.done = [ ...this.done, item ];
+    }
+
+    delete(id)
+    {
+        console.log(`Delete: ${id}`);
+        this.done = this.done.filter ( i => i.id != id );
     }
 }
 
