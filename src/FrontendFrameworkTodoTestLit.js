@@ -17,7 +17,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         return {
             todo : {
                 type: Array,
-            }
+            },
         };
     }
 
@@ -27,14 +27,14 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
         this.todo=[];
         this.addEventListener('done', e => console.log(e));
         this.id_count = 0;
-        this.todo_input = "";
     }
 
     render() 
     {
         let submit_handler = e =>
         {
-            this.add_todo(this.todo_input);
+            let todo_input = this.shadowRoot.getElementById("add-todo-input").value;
+            this.add_todo(todo_input);
             e.preventDefault();
         };
 
@@ -49,8 +49,6 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
                         type="text" 
                         id="add-todo-input" 
                         name="add-todo"
-                        value="${this.todo_input}"
-                        @change=${e => this.todo_input = e.target.value}
                     ><br><br>
                     <input type="submit" value="Submit">
                 </form>
@@ -62,7 +60,7 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         let list_gen = _ =>
         {
-            let text_list = items.map(i => html`<li>i.text</li>`);
+            let text_list = items.map(i => html`<li>${i.text}</li>`);
             return html`<ul>${text_list}</ul>`;
         };
 
@@ -80,12 +78,15 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         console.log(`Add: ${text}`);
 
+        if(text.length <= 0 )
+            return;
+
         let item = {
             text : text,
             id : this.make_unique_id ()
         };
 
-        this.todo.push(item);
+        this.todo = [ ...this.todo, item ];
     }
 }
 
