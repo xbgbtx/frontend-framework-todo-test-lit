@@ -13,8 +13,9 @@ Need to install rollup build during scaffold for apps.
 
 ```
 git worktree add -B gh-pages gh-pages
-cd gh-pages
-cd ..
+mkdir gh-pages/
+...
+npm run build
 rm -rf gh-pages/*
 cp dist/* gh-pages
 cd gh-pages
