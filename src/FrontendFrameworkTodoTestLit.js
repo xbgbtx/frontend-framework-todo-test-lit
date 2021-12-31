@@ -6,9 +6,21 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
     {
         return css`
 
-            main {
-            flex-grow: 1;
+            .grid-root {
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                grid-template-rows: 1fr 1fr 1fr; 
+                gap: 0px 0px; 
+                grid-template-areas: 
+                    "header header"
+                    "left right"
+                    "footer footer"; 
             }
+
+            .grid-header { grid-area: header; }
+            .grid-left { grid-area: left; }
+            .grid-right { grid-area: right; }
+            .grid-footer { grid-area: footer; }
         `;
     }
 
@@ -44,19 +56,29 @@ export class FrontendFrameworkTodoTestLit extends LitElement {
 
         return html`
             <main>
-                <h1>ToDo using Lit</h1>
-                ${this.list_html("Todo", "Mark Done", id => this.mark_done(id), this.todo)}
-                ${this.list_html("Done", "Delete", id => this.delete(id), this.done)}
+                <div class="grid-root">
+                    <div class="grid-header">
+                        <h1>ToDo using Lit</h1>
+                    </div>
+                    <div class="grid-left">
+                        ${this.list_html("Todo", "Mark Done", id => this.mark_done(id), this.todo)}
+                    </div>
+                    <div class="grid-right">
+                        ${this.list_html("Done", "Delete", id => this.delete(id), this.done)}
+                    </div>
 
-                <form @submit=${submit_handler}>
-                    <label for="add-todo">Add Todo:</label> 
-                    <input 
-                        type="text" 
-                        id="add-todo-input" 
-                        name="add-todo"
-                    ><br><br>
-                    <input type="submit" value="Submit">
-                </form>
+                    <div class="grid-footer">
+                        <form @submit=${submit_handler}>
+                            <label for="add-todo">Add Todo:</label> 
+                            <input 
+                                type="text" 
+                                id="add-todo-input" 
+                                name="add-todo"
+                            ><br><br>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
             </main>
         `;
     }
